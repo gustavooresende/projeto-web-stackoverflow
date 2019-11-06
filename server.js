@@ -1,9 +1,10 @@
-let client = require("mongodb").MongoClient;
-let config = require("./lib/config.js");
-let http = require("http");
-let express = require("express");
-let app = express();
-let bodyParser = require("body-parser");
+const client = require("mongodb").MongoClient;
+const config = require("./lib/config.js");
+const http = require("http");
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const { check, validationResult } = require("express-validator");
 // client.connect(config.uri, config.options, (err, client) => {
 //   if (err) throw err;
 //   let db = client.db(config.db);
@@ -12,32 +13,70 @@ let bodyParser = require("body-parser");
 //     if (err) throw err;
 //     console.log(msg);
 //   });
-// });
+// });1
 
 app.use(bodyParser.json());
 
-app.post("/signup", (req, res) => {
+app.post(
+  "/signup",
+  [
+    check("email").isEmail(),
+    check("password").isLength({ min: 4 }),
+    check("displayName").isLength({ min: 1 }),
+    check("street").isLength({ min: 1 }),
+    check("number").isLength({ min: 1 }),
+    check("city").isLength({ min: 1 })
+  ],
+  (req, res) => {
+    client.connect(config.uri, config.options, (err, client) => {
+      if (err) throw err;
+      let db = client.db(config.db);
+
+      data = {
+        displayName: req.body.displayName,
+        email: req.body.email,
+        password: req.body.password,
+        street: req.body.street,
+        number: req.body.number,
+        complement: req.body.complement,
+        city: req.body.city
+      };
+
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+      }
+
+      db.collection("teste").insertOne(data, (err, msg) => {
+        if (err) {
+          res.end("<h1>TESTE" + err + "</h1>");
+        }
+        res.end("<h1>TESTE" + msg.ops + "</h1>");
+      });
+    });
+  }
+);
+
+app.post("/login", (req, res) => {
   client.connect(config.uri, config.options, (err, client) => {
     if (err) throw err;
     let db = client.db(config.db);
-    // console.log(req);
-    data = {
-      displayName: req.body.displayName,
-      email: req.body.email,
-      password: req.body.password,
-      street: req.body.street,
-      number: req.body.number,
-      complement: req.body.complement,
-      city: req.body.city
-    };
-    if (data.complement == undefined) {
-      data.complement = null;
+
+    let email = req.body.email;
+    let password = req.body.password;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
     }
-    db.collection("teste").insertOne(data, (err, msg) => {
+
+    db.collection("teste").findOne({ email: email }, (err, msg) => {
       if (err) {
         res.end("<h1>TESTE" + err + "</h1>");
       }
-      res.end("<h1>TESTE" + msg.ops + "</h1>");
+      if (msg.password == password) {
+        res.end("<h1>Bem vindo " + msg.displayName + "</h1>");
+      } else res.end("<h1>Usuario ou senha invalidos!</h1>");
     });
   });
 });
