@@ -49,7 +49,7 @@ app.post(
 
       db.collection("teste").insertOne(data, (err, msg) => {
         if (err) {
-          res.end("<h1>TESTE" + err + "</h1>");
+          return res.end("<h1>TESTE" + err + "</h1>");
         }
         res.end("<h1>TESTE" + msg.ops + "</h1>");
       });
@@ -72,7 +72,7 @@ app.post("/login", (req, res) => {
 
     db.collection("teste").findOne({ email: email }, (err, msg) => {
       if (err) {
-        res.end("<h1>TESTE" + err + "</h1>");
+        return res.end("<h1>TESTE" + err + "</h1>");
       }
       if (msg.password == password) {
         res.end("<h1>Bem vindo " + msg.displayName + "</h1>");
