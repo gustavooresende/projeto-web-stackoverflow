@@ -5,6 +5,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const { check, validationResult } = require("express-validator");
+const content = require("./contents.js");
 // client.connect(config.uri, config.options, (err, client) => {
 //   if (err) throw err;
 //   let db = client.db(config.db);
