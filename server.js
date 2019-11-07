@@ -124,7 +124,6 @@ app.post(
   }
 );
 app.get("/", (req, res) => {
-  console.log(req.session);
   if (req.session && req.session.login) {
     return res.render("index", { login: true });
   }
@@ -136,7 +135,7 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  req.session.destroy(err => {
+  req.session.destroy((err) => {
     return res.redirect("/");
   });
 });
@@ -146,7 +145,11 @@ app.get("/signup", (req, res) => {
 });
 
 app.get("/ask", (req, res) => {
-  res.render("ask", { success: false });
+  if (req.session && req.session.login) {
+    return res.render("ask", { login: true, success: false });
+  } else {
+    res.redirect("login");
+  }
 });
 
 app.post("/login", (req, res) => {
@@ -183,7 +186,7 @@ app.post(
   ],
   (req, res) => {
     var filename;
-    upload(req, res, err => {
+    upload(req, res, (err) => {
       if (err) {
         res.render("ask", {
           success: false,
@@ -217,7 +220,7 @@ app.post(
 
       db.collection("contents").insertOne(data, (err, msg) => {
         if (err) {
-          return res.render("ask", { success: false });
+          return res.render("ask", { success: false, login: true });
         }
         res.render("ask", { success: true });
       });
@@ -246,10 +249,14 @@ app.get("/search", (req, res) => {
       .find({ title: search })
       .toArray((err, msgs) => {
         if (!msgs || msgs.length === 0) {
-          res.render("show-content", { msgs: false });
+          if (req.session && req.session.login) {
+            res.render("show-content", { msgs: false, login: true });
+          } else {
+            res.render("show-content", { msgs: false, login: false });
+          }
         }
         console.log(msgs);
-        msgs.map(msg => {
+        msgs.map((msg) => {
           // console.log(msg);
           if (msg.file != null) {
             gfs.files.findOne({ filename: msg.file }, (err, file) => {
@@ -264,7 +271,11 @@ app.get("/search", (req, res) => {
             });
           }
         });
-        res.render("show-content", { msgs: msgs });
+        if (req.session && req.session.login) {
+          res.render("show-content", { msgs: msgs, login: true });
+        } else {
+          res.render("show-content", { msgs: msgs, login: false });
+        }
       });
   });
 });

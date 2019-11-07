@@ -33,12 +33,18 @@
         </svg>
         <input type="submit" style="display: none;">
       </form>
+      {{#if login}}
+      <a href="./logout">
+        <input type="button" class="loginButton" value="Log out" />
+      </a>
+      {{else}}
       <a href="./login">
         <input type="button" class="loginButton" value="Log in" />
       </a>
       <a href="./signup">
         <input type="button" class="signupButton" value="Sign Up" />
       </a>
+      {{/if}}
     </div>
   </div>
   {{#if success}}

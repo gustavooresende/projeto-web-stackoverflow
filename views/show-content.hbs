@@ -33,16 +33,25 @@
                 </svg>
             </div>
 
+            {{#if login}}
+            <a href="./logout">
+                <input type="button" class="loginButton" value="Log out" />
+            </a>
+            <a href="./ask">
+                <input type="button" class="signupButton" value="ASK!" />
+            </a>
+            {{else}}
             <a href="./login">
                 <input type="button" class="loginButton" value="Log in" />
             </a>
             <a href="./signup">
                 <input type="button" class="signupButton" value="Sign Up" />
             </a>
+            {{/if}}
         </div>
     </div>
     <section class="show-content">
-    {{#msgs}}
+        {{#msgs}}
         <div class="show-elements shadow-box">
             <img src="image/{{file}}" alt="" />
             <ul class="show-items">
@@ -52,7 +61,7 @@
             </ul>
         </div>
         <hr width="50%">
-    {{/msgs}}
+        {{/msgs}}
     </section>
 </body>
 
