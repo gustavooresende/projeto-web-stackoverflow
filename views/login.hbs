@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Log in - StackOverflow</title>
+    <link
+      rel="shortcut icon"
+      href="https://cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico?v=4f32ecc8f43d"
+    />
+  </head>
+  <body class="signup-page">
+    <div class="navbar">
+      <div class="menu">
+        <button class="menuButton">
+          <span class="menuLine1"></span>
+          <span class="menuLine2"></span>
+          <span class="menuLine3"></span>
+        </button>
+        <!-- <img class="logo" src="logo.png"></img> -->
+        <img class="logo1" src="images/logo1.png" href="/index.html" />
+        <img class="logo2" src="images/logo2.png" href="/index.html" />
+        <button class="whiteButton">Products</button>
+        <button class="whiteButton">Customers</button>
+        <button class="whiteButton">Use cases</button>
+        <div class="searchReference">
+          <input class="search" placeholder=" Search…" />
+          <svg class="svgSearch">
+            <path
+              class="searchIcon"
+              d="M18 16.5l-5.14-5.18h-.35a7 7 0 1 0-1.19 1.19v.35L16.5 18l1.5-1.5zM12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0z"
+            ></path>
+          </svg>
+        </div>
+
+        <a href="./login-page">
+          <input type="button" class="loginButton" value="Log in" />
+        </a>
+        <a href="./signup-page">
+          <input type="button" class="signupButton" value="Sign Up" />
+        </a>
+      </div>
+    </div>
+    <section class="login">
+      <div class="middle-container">
+        <h2 class="center signup-title">
+          Join with us! Log in your account.
+        </h2>
+        <form class="cards" method="POST" action="./login" accept-charset="utf-8">
+          <div class="middle card-box shadow-box">
+            <div class="content-box">
+              <label>Email</label>
+              <br />
+              <input type="email" value="" name="email" />
+              <br />
+              <br />
+              <label>Password</label>
+              <br />
+              <input type="password" value="" name="password" />
+              <br />
+              <br />
+              <input class="light-blue-btn btn" type="submit" value="Log in" />
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </body>
+</html>
