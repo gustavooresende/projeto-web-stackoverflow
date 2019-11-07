@@ -41,11 +41,19 @@
             </a>
         </div>
     </div>
-    <ul>
-        {{#msgs}}
-            <li>{{file}}</li>>
-        {{/msgs}}
-    </ul>
+    <section class="show-content">
+    {{#msgs}}
+        <div class="show-elements shadow-box">
+            <img src="image/{{file}}" alt="" />
+            <ul class="show-items">
+                <li><strong>Title:</strong> {{title}}</li><br>
+                <li><strong>Body: </strong>{{body}}</li><br>
+                <li><strong>Tags: </strong>{{tags}}</li>
+            </ul>
+        </div>
+        <hr width="50%">
+    {{/msgs}}
+    </section>
 </body>
 
 </html>

@@ -174,50 +174,59 @@ app.post("/login", (req, res) => {
   });
 });
 
-app.post("/ask", (req, res) => {
-  var filename;
-  upload(req, res, err => {
-    if (err) {
-      res.render("ask", {
-        success: false,
-        msg: "It wasn't possible upload the file"
-      });
-    } else {
-      if (req.file == undefined) {
-        filename = null;
-      } else {
-        filename = req.file.filename;
-      }
-    }
-  });
-
-  client.connect(config.uri, config.options, (err, client) => {
-    let data = {
-      title: req.body.title,
-      body: req.body.body,
-      tags: req.body.tags,
-      file: filename
-    };
-
-    if (err) throw err;
-    let db = client.db(config.db);
-
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-
-    db.collection("contents").insertOne(data, (err, msg) => {
+app.post(
+  "/ask",
+  [
+    check("title").isLength({ min: 1 }),
+    check("body").isLength({ min: 10 }),
+    check("tags").isLength({ min: 1 })
+  ],
+  (req, res) => {
+    var filename;
+    upload(req, res, err => {
       if (err) {
-        return res.render("ask", { success: false });
+        res.render("ask", {
+          success: false,
+          msg: "It wasn't possible upload the file"
+        });
+      } else {
+        // console.log(req.file);
+        if (req.file == undefined) {
+          filename = null;
+        } else {
+          filename = req.file.filename;
+        }
       }
-      res.render("ask", { success: true });
     });
 
-    // new_img.save();
-    // res.json({ message: "New image added to the db!" });
-  });
-});
+    client.connect(config.uri, config.options, (err, client) => {
+      let data = {
+        title: req.body.title,
+        body: req.body.body,
+        tags: req.body.tags,
+        file: filename
+      };
+
+      if (err) throw err;
+      let db = client.db(config.db);
+
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+      }
+
+      db.collection("contents").insertOne(data, (err, msg) => {
+        if (err) {
+          return res.render("ask", { success: false });
+        }
+        res.render("ask", { success: true });
+      });
+
+      // new_img.save();
+      // res.json({ message: "New image added to the db!" });
+    });
+  }
+);
 
 app.get("/search", (req, res) => {
   client.connect(config.uri, config.options, (err, client) => {
@@ -231,7 +240,7 @@ app.get("/search", (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    console.log(search);
+    // console.log(search);
 
     db.collection("contents")
       .find({ title: search })
@@ -239,17 +248,18 @@ app.get("/search", (req, res) => {
         if (!msgs || msgs.length === 0) {
           res.render("show-content", { msgs: false });
         }
+        console.log(msgs);
         msgs.map(msg => {
-          console.log(msg);
+          // console.log(msg);
           if (msg.file != null) {
             gfs.files.findOne({ filename: msg.file }, (err, file) => {
               if (
-                file.contentType === "image/jpeg" ||
-                file.contentType === "image/png"
+                msg.contentType === "image/jpeg" ||
+                msg.contentType === "image/png"
               ) {
-                file.isImage = true;
+                msg.isImage = true;
               } else {
-                file.isImage = false;
+                msg.isImage = false;
               }
             });
           }
@@ -259,17 +269,25 @@ app.get("/search", (req, res) => {
   });
 });
 
-app.get("/content", (req, res) => {
-  client.connect(config.uri, config.options, (err, client) => {
-    if (err) throw err;
-    let db = client.db(config.db);
-    console.log("bla");
-    Img.findOne({ title: "safsfasaf" }, function(err, img) {
-      if (err) res.send(err);
-      res.contentType("json");
-      res.render("show-content", { file: img });
-      console.log("q");
-    });
+app.get("/image/:filename", (req, res) => {
+  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    // Check if file
+    if (!file || file.length === 0) {
+      return res.status(404).json({
+        err: "No file exists"
+      });
+    }
+
+    // Check if image
+    if (file.contentType === "image/jpeg" || file.contentType === "image/png") {
+      // Read output to browser
+      const readstream = gfs.createReadStream(file.filename);
+      readstream.pipe(res);
+    } else {
+      res.status(404).json({
+        err: "Not an image"
+      });
+    }
   });
 });
 

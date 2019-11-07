@@ -539,6 +539,44 @@ p {
   color: white;
 }
 
+.show-content {
+  margin: 80px auto;
+
+}
+
+.show-items {
+ float: left;
+ padding-top: 0px;
+ background-color: white;
+}
+
+.show-elements {
+  background-color: white;
+  margin: 0 auto;
+  padding: 20px;
+  width: 50%;
+  height: 200px;
+  /* white-space: nowrap; */
+}
+
+.show-items ul {
+  overflow: scroll;
+}
+
+.show-items li {
+  max-width: 400px;
+  max-height: 100px;
+  overflow: auto;
+}
+
+.show-elements img {
+  float: left;
+  height: 90%;
+  width: 30%;
+  object-fit: cover;
+  /* height: 190px; */
+}
+
 /* .programs span {
     text-align: center;
     align-items: center;
