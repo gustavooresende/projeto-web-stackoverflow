@@ -104,7 +104,7 @@ app.post(
 
       db.collection("teste").insertOne(data, (err, msg) => {
         if (err) {
-          return res.end("<h1>TESTE" + err + "</h1>");
+          return res.render("signup", { emailFail: true });
         }
         req.session.login = data.email;
         return res.redirect("/");
@@ -125,7 +125,7 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  req.session.destroy(err => {
+  req.session.destroy((err) => {
     return res.redirect("/");
   });
 });
@@ -165,7 +165,7 @@ app.post("/login", (req, res) => {
 
 app.post("/ask", (req, res) => {
   var filename;
-  upload(req, res, err => {
+  upload(req, res, (err) => {
     if (err) {
       res.render("ask", {
         success: false,

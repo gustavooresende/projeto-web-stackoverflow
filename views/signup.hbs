@@ -52,6 +52,11 @@
         <span class="alertbtn" onclick="this.parentElement.style.display='none';">&times;</span>
         <strong>Please, fill all the (*) fields.</strong>
       </div>
+      {{else if emailFail}}
+      <div class="alert">
+        <span class="alertbtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <strong>Email already in use.</strong>
+      </div>
       {{/if}}
       <form class="cards" method="POST" action="signup">
         <div class="middle card-box shadow-box">
