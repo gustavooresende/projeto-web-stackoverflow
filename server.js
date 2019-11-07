@@ -208,6 +208,27 @@ app.post("/ask", (req, res) => {
   });
 });
 
+app.get("/search", (req, res) => {
+  client.connect(config.uri, config.options, (err, client) => {
+    if (err) throw err;
+    let db = client.db(config.db);
+    let search = req.query.search;
+
+    console.log("qq");
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    console.log(search);
+
+    db.collection("contents").find({ title: search }, (err, msg) => {
+      if (err) throw err;
+      console.log(msg);
+    });
+  });
+});
+
 app.get("/content", (req, res) => {
   client.connect(config.uri, config.options, (err, client) => {
     if (err) throw err;
