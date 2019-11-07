@@ -20,8 +20,8 @@ const path = require("path");
 
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "../views")));
-app.set("views", path.join(__dirname, "../views"));
+app.use(express.static(path.join(__dirname, "public")));
+app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 
 app.post(
@@ -66,11 +66,11 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.get("/login-page", (req, res) => {
+app.get("/login", (req, res) => {
   res.render("login");
 });
 
-app.get("/signup-page", (req, res) => {
+app.get("/signup", (req, res) => {
   res.render("signup");
 });
 
