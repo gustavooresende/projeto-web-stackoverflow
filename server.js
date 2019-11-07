@@ -39,27 +39,19 @@ app.use(
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 
-const conn = mongoose.createConnection(config.uri);
-
-let gfs;
-
-conn.once("open", () => {
-  gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection("contents");
-});
-
 var storage = new GridFsStorage({
-  url: config.uri,
+  url: config.project_uri,
   file: (req, file) => {
     return new Promise((resolve, reject) => {
       crypto.randomBytes(16, (err, buf) => {
         if (err) {
           return reject(err);
         }
+        console.log(file.originalname);
         const filename = buf.toString("hex") + path.extname(file.originalname);
         const fileInfo = {
           filename: filename,
-          bucketName: "contents"
+          bucketName: "uploads"
         };
         resolve(fileInfo);
       });
@@ -132,7 +124,7 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  req.session.destroy((err) => {
+  req.session.destroy(err => {
     return res.redirect("/");
   });
 });
@@ -171,9 +163,8 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/ask", (req, res) => {
-  var new_img = new Img();
-
-  upload(req, res, (err) => {
+  var filename;
+  upload(req, res, err => {
     if (err) {
       res.render("ask", {
         success: false,
@@ -181,10 +172,9 @@ app.post("/ask", (req, res) => {
       });
     } else {
       if (req.file == undefined) {
-        new_img = null;
+        filename = null;
       } else {
-        new_img.img.data = fs.readFileSync(req.file.path);
-        new_img.img.contentType = "image/jpeg";
+        filename = req.file.filename;
       }
     }
   });
@@ -194,7 +184,7 @@ app.post("/ask", (req, res) => {
       title: req.body.title,
       body: req.body.body,
       tags: req.body.tags,
-      file: new_img
+      file: filename
     };
 
     if (err) throw err;
@@ -207,7 +197,7 @@ app.post("/ask", (req, res) => {
 
     db.collection("contents").insertOne(data, (err, msg) => {
       if (err) {
-        return res.end("<h1>" + err + "</h1>");
+        return res.render("ask", { success: false });
       }
       res.render("ask", { success: true });
     });
