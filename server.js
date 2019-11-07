@@ -8,6 +8,13 @@ const { check, validationResult } = require("express-validator");
 const path = require("path");
 const session = require("express-session");
 
+const mongoose = require("mongoose");
+const Img = require("./lib/upload_content");
+const fs = require("fs");
+const multer = require("multer");
+const crypto = require("crypto");
+const GridFsStorage = require("multer-gridfs-storage");
+const Grid = require("gridfs-stream");
 // client.connect(config.uri, config.options, (err, client) => {
 //   if (err) throw err;
 //   let db = client.db(config.db);
@@ -17,20 +24,6 @@ const session = require("express-session");
 //     console.log(msg);
 //   });
 // });1
-
-const Img = require("./lib/upload_content");
-
-const fs = require("fs");
-
-const multer = require("multer");
-
-const storage = multer.diskStorage({
-  destination: function(req, res, cb) {
-    cb(null, "uploads/");
-  }
-});
-
-const upload = multer({ storage: storage });
 
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,6 +38,48 @@ app.use(
 );
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
+
+const conn = mongoose.createConnection(config.uri);
+
+let gfs;
+
+conn.once("open", () => {
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection("contents");
+});
+
+var storage = new GridFsStorage({
+  url: config.uri,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        const filename = buf.toString("hex") + path.extname(file.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: "contents"
+        };
+        resolve(fileInfo);
+      });
+    });
+  }
+});
+
+// const storage = multer.diskStorage({
+//   destination: function(req, res, cb) {
+//     cb(null, "uploads/");
+//   },
+//   filename: function(req, file, cb) {
+//     cb(
+//       null,
+//       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+//     );
+//   }
+// });
+
+const upload = multer({ storage: storage }).single("image");
 
 app.post(
   "/signup",
@@ -121,7 +156,7 @@ app.post("/login", (req, res) => {
       if (err) {
         return res.end("<h1>TESTE" + err + "</h1>");
       }
-      if (msg.password == password) {
+      if (msg && msg.password == password) {
         req.session.login = email;
         return res.redirect("/");
       } else res.end("<h1>Usuario ou senha invalidos!</h1>");
@@ -129,13 +164,26 @@ app.post("/login", (req, res) => {
   });
 });
 
-app.post("/ask", upload.single("image"), (req, res) => {
-  console.log(req.file);
-  client.connect(config.uri, config.options, (err, client) => {
-    var new_img = new Img();
-    new_img.img.data = fs.readFileSync(req.file.path);
-    new_img.img.contentType = "image/jpeg";
+app.post("/ask", (req, res) => {
+  var new_img = new Img();
 
+  upload(req, res, err => {
+    if (err) {
+      res.render("ask", {
+        success: false,
+        msg: "It wasn't possible upload the file"
+      });
+    } else {
+      if (req.file == undefined) {
+        new_img = null;
+      } else {
+        new_img.img.data = fs.readFileSync(req.file.path);
+        new_img.img.contentType = "image/jpeg";
+      }
+    }
+  });
+
+  client.connect(config.uri, config.options, (err, client) => {
     let data = {
       title: req.body.title,
       body: req.body.body,
@@ -160,6 +208,20 @@ app.post("/ask", upload.single("image"), (req, res) => {
 
     // new_img.save();
     // res.json({ message: "New image added to the db!" });
+  });
+});
+
+app.get("/content", (req, res) => {
+  client.connect(config.uri, config.options, (err, client) => {
+    if (err) throw err;
+    let db = client.db(config.db);
+    console.log("bla");
+    Img.findOne({ title: "safsfasaf" }, function(err, img) {
+      if (err) res.send(err);
+      res.contentType("json");
+      res.render("show-content", { file: img });
+      console.log("q");
+    });
   });
 });
 
