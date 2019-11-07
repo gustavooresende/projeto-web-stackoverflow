@@ -122,13 +122,19 @@ app.post(
 app.get("/", (req, res) => {
   console.log(req.session);
   if (req.session && req.session.login) {
-    res.render("index", { loginStatus: "out", signup: "true" });
+    return res.render("index", { login: true });
   }
-  res.render("index", { loginStatus: "in", signup: "false" });
+  res.render("index", { login: false });
 });
 
 app.get("/login", (req, res) => {
   res.render("login");
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    return res.redirect("/");
+  });
 });
 
 app.get("/signup", (req, res) => {
@@ -159,7 +165,7 @@ app.post("/login", (req, res) => {
       if (msg && msg.password == password) {
         req.session.login = email;
         return res.redirect("/");
-      } else res.end("<h1>Usuario ou senha invalidos!</h1>");
+      } else res.render("login", { fail: true });
     });
   });
 });
@@ -167,7 +173,7 @@ app.post("/login", (req, res) => {
 app.post("/ask", (req, res) => {
   var new_img = new Img();
 
-  upload(req, res, err => {
+  upload(req, res, (err) => {
     if (err) {
       res.render("ask", {
         success: false,

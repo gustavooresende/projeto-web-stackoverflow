@@ -36,13 +36,21 @@
             ></path>
           </svg>
         </div>
-
-        <a href="./login">
-          <input type="button" class="loginButton" value="Log {{loginStatus}}" />
-        </a>
-        <a href="./signup">
-          <input type="button" class="signupButton" value="Sign Up" hidden={{signup}}/>
-        </a>
+        {{#if login}}
+          <a href="./logout">
+            <input type="button" class="loginButton" value="Log out" />
+          </a>
+          <a href="./ask">
+            <input type="button" class="signupButton" value="ASK!" />
+          </a>
+        {{else}}
+          <a href="./login">
+            <input type="button" class="loginButton" value="Log in" />
+          </a>
+          <a href="./signup">
+            <input type="button" class="signupButton" value="Sign Up"/>
+          </a>
+        {{/if}}
       </div>
     </div>
     <section>
