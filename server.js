@@ -6,6 +6,8 @@ const app = express();
 const bodyParser = require("body-parser");
 const { check, validationResult } = require("express-validator");
 const content = require("./contents.js");
+const path = require("path");
+
 // client.connect(config.uri, config.options, (err, client) => {
 //   if (err) throw err;
 //   let db = client.db(config.db);
@@ -16,7 +18,10 @@ const content = require("./contents.js");
 //   });
 // });1
 
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set("views", path.join(__dirname, "../views"));
+app.set("view engine", "hbs");
 
 app.post(
   "/signup",
@@ -32,7 +37,6 @@ app.post(
     client.connect(config.uri, config.options, (err, client) => {
       if (err) throw err;
       let db = client.db(config.db);
-
       data = {
         displayName: req.body.displayName,
         email: req.body.email,
@@ -57,6 +61,9 @@ app.post(
     });
   }
 );
+app.get("/", (req, res) => {
+  res.render("index");
+});
 
 app.post("/login", (req, res) => {
   client.connect(config.uri, config.options, (err, client) => {
