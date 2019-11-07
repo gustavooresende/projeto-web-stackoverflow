@@ -6,6 +6,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const { check, validationResult } = require("express-validator");
 const path = require("path");
+const session = require("express-session");
 
 // client.connect(config.uri, config.options, (err, client) => {
 //   if (err) throw err;
@@ -20,6 +21,14 @@ const path = require("path");
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  session({
+    secret: "abobrinha",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+  })
+);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 
@@ -62,7 +71,11 @@ app.post(
   }
 );
 app.get("/", (req, res) => {
-  res.render("index");
+  console.log(req.session);
+  if (req.session && req.session.login) {
+    res.render("index", { loginStatus: "out", signup: "true" });
+  }
+  res.render("index", { loginStatus: "in", signup: "false" });
 });
 
 app.get("/login", (req, res) => {
@@ -95,7 +108,8 @@ app.post("/login", (req, res) => {
         return res.end("<h1>TESTE" + err + "</h1>");
       }
       if (msg.password == password) {
-        res.end("<h1>Bem vindo " + msg.displayName + "</h1>");
+        req.session.login = email;
+        return res.redirect("/");
       } else res.end("<h1>Usuario ou senha invalidos!</h1>");
     });
   });
