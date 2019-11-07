@@ -5,7 +5,6 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const { check, validationResult } = require("express-validator");
-const content = require("./contents.js");
 const path = require("path");
 
 // client.connect(config.uri, config.options, (err, client) => {
@@ -74,6 +73,10 @@ app.get("/signup", (req, res) => {
   res.render("signup");
 });
 
+app.get("/ask", (req, res) => {
+  res.render("ask", { success: false });
+});
+
 app.post("/login", (req, res) => {
   client.connect(config.uri, config.options, (err, client) => {
     if (err) throw err;
@@ -95,6 +98,34 @@ app.post("/login", (req, res) => {
         res.end("<h1>Bem vindo " + msg.displayName + "</h1>");
       } else res.end("<h1>Usuario ou senha invalidos!</h1>");
     });
+  });
+});
+
+app.post("/ask", (req, res) => {
+  client.connect(config.uri, config.options, (err, client) => {
+    let data = {
+      title: req.body.title,
+      body: req.body.body,
+      tags: req.body.tags
+      // file: req.body.file
+    };
+
+    if (err) throw err;
+    let db = client.db(config.db);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    db.collection("contents").insertOne(data, (err, msg) => {
+      if (err) {
+        return res.end("<h1>" + err + "</h1>");
+      }
+      res.render("ask", { success: true });
+    });
+
+    console.log(req.body.body);
   });
 });
 

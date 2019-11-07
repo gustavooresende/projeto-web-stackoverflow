@@ -20,8 +20,8 @@
           <span class="menuLine3"></span>
         </button>
         <!-- <img class="logo" src="logo.png"></img> -->
-        <img class="logo1" src="images/logo1.png" href="/index.html" />
-        <img class="logo2" src="images/logo2.png" href="/index.html" />
+        <a href="/"><img class="logo1" src="images/logo1.png" /></a>
+        <a href="/"><img class="logo2" src="images/logo2.png" /></a>
         <button class="whiteButton">Products</button>
         <button class="whiteButton">Customers</button>
         <button class="whiteButton">Use cases</button>
@@ -34,14 +34,20 @@
             ></path>
           </svg>
         </div>
-        <a href="./login.html">
+        <a href="./login">
             <input type="button" class="loginButton" value="Log in" />
           </a>
-          <a href="./signup.html">
+          <a href="./signup">
             <input type="button" class="signupButton" value="Sign Up" />
           </a>
       </div>
     </div>
+    {{#if success}}
+      <div class="alert">
+        <span class="alertbtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+        <strong>Sucessful!</strong> Congratulations, your ask has been posted.
+      </div>
+    {{/if}}
     <section class="ask">
       <form method="POST" action="ask">
         <div class="big-content">

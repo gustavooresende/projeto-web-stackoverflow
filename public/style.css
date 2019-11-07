@@ -515,6 +515,30 @@ p {
   margin-top: 0px !important;
 }
 
+.alert {
+  /* margin: 0 auto; */
+  margin-top: 50px;
+  padding: 20px;
+  /* height: 60px; */
+  background-color: #0095ff;
+  color: white;
+}
+
+.alertbtn {
+  margin-left: 50px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: white;
+}
+
 /* .programs span {
     text-align: center;
     align-items: center;
