@@ -18,6 +18,20 @@ const session = require("express-session");
 //   });
 // });1
 
+const Img = require("./lib/upload_content");
+
+const fs = require("fs");
+
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function(req, res, cb) {
+    cb(null, "uploads/");
+  }
+});
+
+const upload = multer({ storage: storage });
+
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -115,13 +129,18 @@ app.post("/login", (req, res) => {
   });
 });
 
-app.post("/ask", (req, res) => {
+app.post("/ask", upload.single("image"), (req, res) => {
+  console.log(req.file);
   client.connect(config.uri, config.options, (err, client) => {
+    var new_img = new Img();
+    new_img.img.data = fs.readFileSync(req.file.path);
+    new_img.img.contentType = "image/jpeg";
+
     let data = {
       title: req.body.title,
       body: req.body.body,
-      tags: req.body.tags
-      // file: req.body.file
+      tags: req.body.tags,
+      file: new_img
     };
 
     if (err) throw err;
@@ -139,7 +158,8 @@ app.post("/ask", (req, res) => {
       res.render("ask", { success: true });
     });
 
-    console.log(req.body.body);
+    // new_img.save();
+    // res.json({ message: "New image added to the db!" });
   });
 });
 

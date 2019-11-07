@@ -49,7 +49,7 @@
       </div>
     {{/if}}
     <section class="ask">
-      <form method="POST" action="ask">
+      <form method="POST" action="ask" enctype="multipart/form-data">
         <div class="big-content">
           <div class="ask-container">
             <h4>Title</h4>
@@ -65,7 +65,7 @@
             <br />
             <br />
             <h4>Add Files</h4>
-            <input type="file" name="file" accept="image/*" />
+            <input type="file" name="image" accept="image/*" />
           </div>
         </div>
         <input class="light-blue-btn btn" type="submit" value="Review your question" />
