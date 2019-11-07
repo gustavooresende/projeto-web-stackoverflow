@@ -85,7 +85,7 @@ app.post(
   "/signup",
   [
     check("email").isEmail(),
-    check("password").isLength({ min: 4 }),
+    check("password").isLength({ min: 1 }),
     check("displayName").isLength({ min: 1 }),
     check("street").isLength({ min: 1 }),
     check("number").isLength({ min: 1 }),
@@ -107,14 +107,15 @@ app.post(
 
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
+        return res.render("signup", { fail: true });
       }
 
       db.collection("teste").insertOne(data, (err, msg) => {
         if (err) {
           return res.end("<h1>TESTE" + err + "</h1>");
         }
-        res.end("<h1>TESTE" + msg.ops + "</h1>");
+        req.session.login = data.email;
+        return res.redirect("/");
       });
     });
   }
