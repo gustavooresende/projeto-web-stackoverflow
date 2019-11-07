@@ -235,28 +235,26 @@ app.get("/search", (req, res) => {
 
     db.collection("contents")
       .find({ title: search })
-      .toArray((err, msg) => {
-        gfs.files.findOne({ filename: msg[0].file }, (err, file) => {
-          if (!file || file.length === 0) {
-            return res.status(404).json({
-              err: "No file exists"
-            });
-          }
-          // File exists
-          if (
-            file.contentType === "image/jpeg" ||
-            file.contentType === "image/png"
-          ) {
-            // Read output to browser
-            const readstream = gfs.createReadStream(file.filename);
-
-            readstream.pipe(res);
-          } else {
-            res.status(404).json({
-              err: "Not an image"
+      .toArray((err, msgs) => {
+        if (!msgs || msgs.length === 0) {
+          res.render("show-content", { msgs: false });
+        }
+        msgs.map(msg => {
+          console.log(msg);
+          if (msg.file != null) {
+            gfs.files.findOne({ filename: msg.file }, (err, file) => {
+              if (
+                file.contentType === "image/jpeg" ||
+                file.contentType === "image/png"
+              ) {
+                file.isImage = true;
+              } else {
+                file.isImage = false;
+              }
             });
           }
         });
+        res.render("show-content", { msgs: msgs });
       });
   });
 });
