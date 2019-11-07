@@ -39,6 +39,17 @@ app.use(
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 
+const conn = mongoose.createConnection(config.project_uri);
+
+// Init gfs
+let gfs;
+
+conn.once("open", () => {
+  // Init stream
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection("uploads");
+});
+
 var storage = new GridFsStorage({
   url: config.project_uri,
   file: (req, file) => {
@@ -125,7 +136,7 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  req.session.destroy((err) => {
+  req.session.destroy(err => {
     return res.redirect("/");
   });
 });
@@ -165,7 +176,7 @@ app.post("/login", (req, res) => {
 
 app.post("/ask", (req, res) => {
   var filename;
-  upload(req, res, (err) => {
+  upload(req, res, err => {
     if (err) {
       res.render("ask", {
         success: false,
@@ -214,7 +225,7 @@ app.get("/search", (req, res) => {
     let db = client.db(config.db);
     let search = req.query.search;
 
-    console.log("qq");
+    // console.log("qq");
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -222,10 +233,31 @@ app.get("/search", (req, res) => {
     }
     console.log(search);
 
-    db.collection("contents").find({ title: search }, (err, msg) => {
-      if (err) throw err;
-      console.log(msg);
-    });
+    db.collection("contents")
+      .find({ title: search })
+      .toArray((err, msg) => {
+        gfs.files.findOne({ filename: msg[0].file }, (err, file) => {
+          if (!file || file.length === 0) {
+            return res.status(404).json({
+              err: "No file exists"
+            });
+          }
+          // File exists
+          if (
+            file.contentType === "image/jpeg" ||
+            file.contentType === "image/png"
+          ) {
+            // Read output to browser
+            const readstream = gfs.createReadStream(file.filename);
+
+            readstream.pipe(res);
+          } else {
+            res.status(404).json({
+              err: "Not an image"
+            });
+          }
+        });
+      });
   });
 });
 
