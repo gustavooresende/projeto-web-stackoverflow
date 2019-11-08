@@ -6,6 +6,9 @@
   "directories": {
     "lib": "lib"
   },
+  "engines": {
+    "node": "12.x"
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "crypto": "^1.0.1",
