@@ -167,64 +167,68 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/ask", (req, res) => {
-  var filename;
-  upload(req, res, err => {
-    if (err) {
-      res.render("ask", {
-        success: false,
-        error: true,
-        msg: "It wasn't possible upload the file",
-        login: true
-      });
-    } else {
-      if (req.file == undefined) {
-        filename = null;
-      } else {
-        filename = req.file.filename;
-      }
-    }
-  });
-
-  client.connect(config.uri, config.options, (err, client) => {
-    let data = {
-      title: req.body.title,
-      body: req.body.body,
-      tags: req.body.tags,
-      file: filename
-    };
-
-    if (err) throw err;
-    let db = client.db(config.db);
-
-    if (
-      !(data.title.length > 0) ||
-      !(data.body.length > 0) ||
-      !(data.tags.length > 0)
-    ) {
-      return res.render("ask", {
-        success: false,
-        error: true,
-        login: true,
-        msg: "You might to fill the title, body and tags"
-      });
-    }
-    // if (data.title.length == 0) {
-    // }
-
-    db.collection("contents").insertOne(data, (err, msg) => {
+  if (req.session && req.session.login) {
+    var filename;
+    upload(req, res, err => {
       if (err) {
-        return res.render("ask", {
+        res.render("ask", {
           success: false,
-          login: true,
-          msg: "It wasn't possible to post in BD"
+          error: true,
+          msg: "It wasn't possible upload the file",
+          login: true
         });
+      } else {
+        if (req.file == undefined) {
+          filename = null;
+        } else {
+          filename = req.file.filename;
+        }
       }
-      return res.render("ask", { success: true, login: true });
     });
 
-    // new_img.save();
-    // res.json({ message: "New image added to the db!" });
-  });
+    client.connect(config.uri, config.options, (err, client) => {
+      let data = {
+        title: req.body.title,
+        body: req.body.body,
+        tags: req.body.tags,
+        file: filename
+      };
+
+      if (err) throw err;
+      let db = client.db(config.db);
+
+      if (
+        !(data.title.length > 0) ||
+        !(data.body.length > 0) ||
+        !(data.tags.length > 0)
+      ) {
+        return res.render("ask", {
+          success: false,
+          error: true,
+          login: true,
+          msg: "You might to fill the title, body and tags"
+        });
+      }
+      // if (data.title.length == 0) {
+      // }
+
+      db.collection("contents").insertOne(data, (err, msg) => {
+        if (err) {
+          return res.render("ask", {
+            success: false,
+            login: true,
+            msg: "It wasn't possible to post in BD"
+          });
+        }
+        return res.render("ask", { success: true, login: true });
+      });
+
+      // new_img.save();
+      // res.json({ message: "New image added to the db!" });
+    });
+  } else {
+    res.redirect("/login");
+  }
 });
 
 app.get("/search", (req, res) => {
