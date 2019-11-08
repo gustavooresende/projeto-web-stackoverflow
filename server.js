@@ -293,5 +293,7 @@ app.get("/image/:filename", (req, res) => {
   });
 });
 
-http.createServer(app).listen(3000);
+const port = process.env.PORT || 5000;
+
+http.createServer(app).listen(port);
 console.log("Rodando...");
