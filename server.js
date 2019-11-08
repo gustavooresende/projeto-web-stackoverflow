@@ -15,17 +15,7 @@ const multer = require("multer");
 const crypto = require("crypto");
 const GridFsStorage = require("multer-gridfs-storage");
 const Grid = require("gridfs-stream");
-// client.connect(config.uri, config.options, (err, client) => {
-//   if (err) throw err;
-//   let db = client.db(config.db);
 
-//   db.collection("teste").insertOne({ nome: "testeee" }, (err, msg) => {
-//     if (err) throw err;
-//     console.log(msg);
-//   });
-// });1
-
-// app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
@@ -58,7 +48,6 @@ var storage = new GridFsStorage({
         if (err) {
           return reject(err);
         }
-        console.log(file.originalname);
         const filename = buf.toString("hex") + path.extname(file.originalname);
         const fileInfo = {
           filename: filename,
@@ -113,7 +102,7 @@ app.post(
         return res.render("signup", { fail: true });
       }
 
-      db.collection("teste").insertOne(data, (err, msg) => {
+      db.collection("users").insertOne(data, (err, msg) => {
         if (err) {
           return res.render("signup", { emailFail: true });
         }
@@ -135,7 +124,7 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  req.session.destroy(err => {
+  req.session.destroy((err) => {
     return res.redirect("/");
   });
 });
@@ -165,7 +154,7 @@ app.post("/login", (req, res) => {
       return res.status(422).json({ errors: errors.array() });
     }
 
-    db.collection("teste").findOne({ email: email }, (err, msg) => {
+    db.collection("users").findOne({ email: email }, (err, msg) => {
       if (err) {
         return res.end("<h1>TESTE" + err + "</h1>");
       }
@@ -179,7 +168,7 @@ app.post("/login", (req, res) => {
 
 app.post("/ask", (req, res) => {
   var filename;
-  upload(req, res, err => {
+  upload(req, res, (err) => {
     if (err) {
       res.render("ask", {
         success: false,
@@ -188,7 +177,6 @@ app.post("/ask", (req, res) => {
         login: true
       });
     } else {
-      // console.log(req.file);
       if (req.file == undefined) {
         filename = null;
       } else {
@@ -221,7 +209,6 @@ app.post("/ask", (req, res) => {
       });
     }
     // if (data.title.length == 0) {
-    //   console.log("q");
     // }
 
     db.collection("contents").insertOne(data, (err, msg) => {
@@ -246,13 +233,10 @@ app.get("/search", (req, res) => {
     let db = client.db(config.db);
     let search = req.query.search;
 
-    // console.log("qq");
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    // console.log(search);
 
     db.collection("contents")
       .find({ title: search })
@@ -264,9 +248,7 @@ app.get("/search", (req, res) => {
             return res.render("show-content", { msgs: false, login: false });
           }
         }
-        // console.log(msgs);
-        msgs.map(msg => {
-          // console.log(msg);
+        msgs.map((msg) => {
           if (msg.file != null) {
             gfs.files.findOne({ filename: msg.file }, (err, file) => {
               if (
