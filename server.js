@@ -124,7 +124,7 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  req.session.destroy((err) => {
+  req.session.destroy(err => {
     return res.redirect("/");
   });
 });
@@ -168,7 +168,7 @@ app.post("/login", (req, res) => {
 
 app.post("/ask", (req, res) => {
   var filename;
-  upload(req, res, (err) => {
+  upload(req, res, err => {
     if (err) {
       res.render("ask", {
         success: false,
@@ -219,7 +219,7 @@ app.post("/ask", (req, res) => {
           msg: "It wasn't possible to post in BD"
         });
       }
-      return res.render("ask", { success: true });
+      return res.render("ask", { success: true, login: true });
     });
 
     // new_img.save();
@@ -248,7 +248,7 @@ app.get("/search", (req, res) => {
             return res.render("show-content", { msgs: false, login: false });
           }
         }
-        msgs.map((msg) => {
+        msgs.map(msg => {
           if (msg.file != null) {
             gfs.files.findOne({ filename: msg.file }, (err, file) => {
               if (
