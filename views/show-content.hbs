@@ -51,17 +51,23 @@
         </div>
     </div>
     <section class="show-content">
-        {{#msgs}}
-        <div class="show-elements shadow-box">
-            <img src="image/{{file}}" alt="" />
-            <ul class="show-items">
-                <li><strong>Title:</strong> {{title}}</li><br>
-                <li><strong>Body: </strong>{{body}}</li><br>
-                <li><strong>Tags: </strong>{{tags}}</li>
-            </ul>
-        </div>
-        <hr width="50%">
-        {{/msgs}}
+
+        {{#if msgs}}
+            {{#msgs}}
+                <div class="show-elements shadow-box">
+                    <img src="image/{{file}}" alt="" />
+                    <ul class="show-items">
+                        <li><strong>Title:</strong> {{title}}</li><br>
+                        <li><strong>Body: </strong>{{body}}</li><br>
+                        <li><strong>Tags: </strong>{{tags}}</li>
+                    </ul>
+                </div>
+                <hr width="50%">
+            {{/msgs}}
+        {{else}}
+            <h2 class="middle-container">Nenhum registro encontrado!</h2>
+            <hr>
+        {{/if}}
     </section>
 </body>
 

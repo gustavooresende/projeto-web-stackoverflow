@@ -135,7 +135,7 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  req.session.destroy((err) => {
+  req.session.destroy(err => {
     return res.redirect("/");
   });
 });
@@ -186,7 +186,7 @@ app.post(
   ],
   (req, res) => {
     var filename;
-    upload(req, res, (err) => {
+    upload(req, res, err => {
       if (err) {
         res.render("ask", {
           success: false,
@@ -215,6 +215,7 @@ app.post(
 
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
+        console.log(errors.array());
         return res.status(422).json({ errors: errors.array() });
       }
 
@@ -222,7 +223,7 @@ app.post(
         if (err) {
           return res.render("ask", { success: false, login: true });
         }
-        res.render("ask", { success: true });
+        return res.render("ask", { success: true });
       });
 
       // new_img.save();
@@ -250,13 +251,13 @@ app.get("/search", (req, res) => {
       .toArray((err, msgs) => {
         if (!msgs || msgs.length === 0) {
           if (req.session && req.session.login) {
-            res.render("show-content", { msgs: false, login: true });
+            return res.render("show-content", { msgs: false, login: true });
           } else {
-            res.render("show-content", { msgs: false, login: false });
+            return res.render("show-content", { msgs: false, login: false });
           }
         }
-        console.log(msgs);
-        msgs.map((msg) => {
+        // console.log(msgs);
+        msgs.map(msg => {
           // console.log(msg);
           if (msg.file != null) {
             gfs.files.findOne({ filename: msg.file }, (err, file) => {
@@ -272,9 +273,9 @@ app.get("/search", (req, res) => {
           }
         });
         if (req.session && req.session.login) {
-          res.render("show-content", { msgs: msgs, login: true });
+          return res.render("show-content", { msgs: msgs, login: true });
         } else {
-          res.render("show-content", { msgs: msgs, login: false });
+          return res.render("show-content", { msgs: msgs, login: false });
         }
       });
   });
