@@ -48,9 +48,9 @@
         Join with us! Log in your account.
       </h2>
       {{#if fail}}
-      <div class="alert">
+      <div class="alert red">
         <span class="alertbtn" onclick="this.parentElement.style.display='none';">&times;</span>
-        <strong>Credenciais inválidas!</strong>
+        <strong>Email or/and password are incorrect!</strong>
       </div>
       {{/if}}
       <form class="cards" method="POST" action="./login" accept-charset="utf-8">

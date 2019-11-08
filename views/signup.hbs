@@ -48,12 +48,12 @@
         Create your Stack Overflow account. It’s free and only takes a minute.
       </h2>
       {{#if fail}}
-      <div class="alert">
+      <div class="alert red">
         <span class="alertbtn" onclick="this.parentElement.style.display='none';">&times;</span>
-        <strong>Please, fill all the (*) fields.</strong>
+        <strong>Please, fill the fields.</strong>
       </div>
       {{else if emailFail}}
-      <div class="alert">
+      <div class="alert red">
         <span class="alertbtn" onclick="this.parentElement.style.display='none';">&times;</span>
         <strong>Email already in use.</strong>
       </div>
@@ -76,20 +76,20 @@
             <br />
             <br />
             <hr>
-            <label>Logradouro</label>
+            <label>Street</label>
             <input type="text" value="" name="street" />
             <br />
             <br />
-            <label>Numero</label>
+            <label>Number</label>
             <br />
             <input type="text" value="" name="number" />
             <br />
             <br />
-            <label>Complemento</label>
+            <label>Complement</label>
             <input type="text" value="" name="complement" />
             <br />
             <br />
-            <label>Cidade</label>
+            <label>City</label>
             <br />
             <input type="text" value="" name="city" />
             <br />

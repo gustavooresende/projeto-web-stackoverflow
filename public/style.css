@@ -569,6 +569,10 @@ p {
   overflow: auto;
 }
 
+.red {
+  background-color: red !important;
+}
+
 .show-elements img {
   float: left;
   height: 90%;

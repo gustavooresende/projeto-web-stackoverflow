@@ -52,6 +52,11 @@
     <span class="alertbtn" onclick="this.parentElement.style.display='none';">&times;</span>
     <strong>Sucessful!</strong> Congratulations, your ask has been posted.
   </div>
+  {{else if error}}
+  <div class="alert red">
+    <span class="alertbtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <strong>Error!</strong> {{msg}}
+  </div>
   {{/if}}
   <section class="ask">
     <form method="POST" action="ask" enctype="multipart/form-data">
