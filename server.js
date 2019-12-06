@@ -231,26 +231,34 @@ app.post("/ask", (req, res) => {
   }
 });
 
-app.get("/search", (req, res) => {
+app.get("/frames", (req, res) => {
   client.connect(config.uri, config.options, (err, client) => {
+    let counter = Number(req.query.counter);
+    if (!counter) {
+      counter = 0;
+    }
+    console.log("q");
     if (err) throw err;
     let db = client.db(config.db);
     let search = req.query.search;
 
+    console.log(search);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
+    console.log("ta vindo");
 
     db.collection("contents")
       .find({ title: search })
+      .limit(4)
+      .skip(counter)
       .toArray((err, msgs) => {
         if (!msgs || msgs.length === 0) {
-          if (req.session && req.session.login) {
-            return res.render("show-content", { msgs: false, login: true });
-          } else {
-            return res.render("show-content", { msgs: false, login: false });
-          }
+          return res
+            .status(200)
+            .json({ msgs: false })
+            .end();
         }
         msgs.map(msg => {
           if (msg.file != null) {
@@ -266,12 +274,29 @@ app.get("/search", (req, res) => {
             });
           }
         });
-        if (req.session && req.session.login) {
-          return res.render("show-content", { msgs: msgs, login: true });
-        } else {
-          return res.render("show-content", { msgs: msgs, login: false });
-        }
+        return res
+          .status(200)
+          .json({ msgs: msgs })
+          .end();
       });
+  });
+});
+
+app.get("/search", (req, res) => {
+  client.connect(config.uri, config.options, (err, client) => {
+    if (err) throw err;
+    let db = client.db(config.db);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    if (req.session && req.session.login) {
+      return res.render("show-content", { login: true });
+    } else {
+      return res.render("show-content", { login: false });
+    }
   });
 });
 

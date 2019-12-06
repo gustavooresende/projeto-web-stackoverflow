@@ -9,7 +9,58 @@
     <title>Look at the questions- StackOverflow</title>
     <link rel="shortcut icon" href="https://cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico?v=4f32ecc8f43d" />
 </head>
+<script>
+    var req = new XMLHttpRequest();
+    var container = document.getElementsByClassName("show-content")[0];
+    container.innerHTML = 
+    /*  <div class="show-elements shadow-box">
+            <img src="image/{{file}}" alt="" />
+            <ul class="show-items">
+                <li><strong>Title:</strong> {{title}}</li><br>
+                <li><strong>Body: </strong>{{body}}</li><br>
+                <li><strong>Tags: </strong>{{tags}}</li>
+            </ul>
+        </div>
+        <hr width="50%">
+        {{/msgs}}
+        {{else}}
+        <h2 class="middle-container">Nenhum registro encontrado!</h2>
+        <hr>
+        {{/if}}*/
+    var req = new XMLHttpRequest();
+    var url = window.location.href;
+    var counter = 0;
+    var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+    var search = queryString.split("=")[1];
+    req.open("GET", "/frames?search=" + search + "&counter=" + counter, true);
+    req.onreadystatechange = function() {
+        if (req.readyState === 4 && req.status === 200){
+            response = req.responseText;
+            console.log(response);
+        }
+    }
+    counter = 4;
+    req.send();
+    window.addEventListener("scroll", () => {
+        console.log(counter);
+        if (((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2)) {
+            var req = new XMLHttpRequest();
+            var url = window.location.href;
+            var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+            var search = queryString.split("=")[1];
+            req.open("GET", "/frames?search=" + search + "&counter=" + counter, true);
+            req.onreadystatechange = function() {
+                if (req.readyState === 4 && req.status === 200){
+                    response = req.responseText;
+                    console.log(response);
+                }
+            }
+            req.send();
+            counter += 4;
+        }
+    }, false);
 
+</script>
 <body class="signup-page">
     <div class="navbar">
         <div class="menu">
@@ -53,7 +104,7 @@
     </div>
     <section class="show-content">
 
-        {{#if msgs}}
+        {{!-- {{#if msgs}}
         {{#msgs}}
         <div class="show-elements shadow-box">
             <img src="image/{{file}}" alt="" />
@@ -68,7 +119,7 @@
         {{else}}
         <h2 class="middle-container">Nenhum registro encontrado!</h2>
         <hr>
-        {{/if}}
+        {{/if}} --}}
     </section>
 </body>
 

@@ -17,9 +17,9 @@ body {
 }
 
 body.signup-page {
-  position: absolute;
+  /* position: absolute;
   height: 100%;
-  width: 100%;
+  width: 100%; */
   background-color: #eff0f1;
 }
 
