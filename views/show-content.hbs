@@ -9,58 +9,7 @@
     <title>Look at the questions- StackOverflow</title>
     <link rel="shortcut icon" href="https://cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico?v=4f32ecc8f43d" />
 </head>
-<script>
-    var req = new XMLHttpRequest();
-    var container = document.getElementsByClassName("show-content")[0];
-    container.innerHTML = 
-    /*  <div class="show-elements shadow-box">
-            <img src="image/{{file}}" alt="" />
-            <ul class="show-items">
-                <li><strong>Title:</strong> {{title}}</li><br>
-                <li><strong>Body: </strong>{{body}}</li><br>
-                <li><strong>Tags: </strong>{{tags}}</li>
-            </ul>
-        </div>
-        <hr width="50%">
-        {{/msgs}}
-        {{else}}
-        <h2 class="middle-container">Nenhum registro encontrado!</h2>
-        <hr>
-        {{/if}}*/
-    var req = new XMLHttpRequest();
-    var url = window.location.href;
-    var counter = 0;
-    var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
-    var search = queryString.split("=")[1];
-    req.open("GET", "/frames?search=" + search + "&counter=" + counter, true);
-    req.onreadystatechange = function() {
-        if (req.readyState === 4 && req.status === 200){
-            response = req.responseText;
-            console.log(response);
-        }
-    }
-    counter = 4;
-    req.send();
-    window.addEventListener("scroll", () => {
-        console.log(counter);
-        if (((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2)) {
-            var req = new XMLHttpRequest();
-            var url = window.location.href;
-            var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
-            var search = queryString.split("=")[1];
-            req.open("GET", "/frames?search=" + search + "&counter=" + counter, true);
-            req.onreadystatechange = function() {
-                if (req.readyState === 4 && req.status === 200){
-                    response = req.responseText;
-                    console.log(response);
-                }
-            }
-            req.send();
-            counter += 4;
-        }
-    }, false);
 
-</script>
 <body class="signup-page">
     <div class="navbar">
         <div class="menu">
@@ -104,23 +53,122 @@
     </div>
     <section class="show-content">
 
-        {{!-- {{#if msgs}}
-        {{#msgs}}
-        <div class="show-elements shadow-box">
-            <img src="image/{{file}}" alt="" />
-            <ul class="show-items">
-                <li><strong>Title:</strong> {{title}}</li><br>
-                <li><strong>Body: </strong>{{body}}</li><br>
-                <li><strong>Tags: </strong>{{tags}}</li>
-            </ul>
-        </div>
-        <hr width="50%">
-        {{/msgs}}
-        {{else}}
-        <h2 class="middle-container">Nenhum registro encontrado!</h2>
-        <hr>
-        {{/if}} --}}
+
     </section>
+    <div class="hidden">
+    </div>
+
+    <script>
+        var msgs;
+        var req = new XMLHttpRequest();
+        var container = document.getElementsByClassName("show-content")[0];
+        var url = window.location.href;
+        var counter = 0;
+        var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+        var search = queryString.split("=")[1];
+        var flag = true;
+        var flag_listening = false;
+        var flag_stop = false;
+
+        onLoading = () => {
+            div = document.createElement("div");
+            div.className = "centralize";
+            div.innerHTML = `
+                <div class="progress container">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `
+            document.getElementsByClassName("hidden")[0].appendChild(div);
+        }
+
+        removeLoading = () => {
+            element = document.getElementsByClassName("centralize")[0]
+            if (element)
+                element.parentNode.removeChild(element);
+        }
+
+        req.open("GET", "/frames?search=" + search + "&counter=" + counter, true);
+        req.onreadystatechange = function () {
+            if (req.readyState === 4 && req.status === 200) {
+                msgs = JSON.parse(req.responseText);
+                if (msgs["msgs"].length === undefined){
+                    let div = document.createElement("div");
+                    div.innerHTML = `<h2 class='middle-container'>Nenhum registro encontrado!</h2><hr>`;
+                    container.appendChild(div);
+                } 
+                if (msgs["msgs"].length < 4){
+                        flag_stop = true;
+                }
+                for (let i = 0; i < msgs["msgs"].length; i++) {
+                    msg = msgs["msgs"][i];
+                    let div = document.createElement("div");
+                    let hr = document.createElement("hr");
+                    hr.style.width = "50%";
+
+                    div.className = "show-elements shadow-box";
+                    div.innerHTML = `<img src='image/${msg.file}' alt='' /><ul class='show-items'><li><strong>Title:</strong>${msg.title}</li><br><li><strong>Body: </strong>${msg.body}</li><br><li><strong>Tags: </strong>${msg.tags}</li></ul>`;
+                    container.appendChild(div);
+                    container.appendChild(hr);
+                    //container.innerHTML = "<div class='show-elements shadow-box'></div><hr width='50%'><h2 class='middle-container'>Nenhum registro encontrado!</h2><hr>"
+                }
+
+                flag_listening = true;
+            }
+        }
+        req.send();
+        counter = 4;
+        window.addEventListener("scroll", () => {
+            //console.log(flag_listening);
+            if (flag_listening) {
+                if (((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2)) {
+                    var req = new XMLHttpRequest();
+                    var url = window.location.href;
+                    var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+                    var search = queryString.split("=")[1];
+                    if (flag) {
+                        flag = false;
+                        req.open("GET", "/frames?search=" + search + "&counter=" + counter, true);
+                        if (!flag_stop)
+                            onLoading();
+                        req.onreadystatechange = function () {
+                            if (req.readyState === 4 && req.status === 200) {
+                                msgs = JSON.parse(req.responseText);
+                                if (msgs["msgs"].length < 4){
+                                    flag_stop = true;
+                                }
+                                for (let i = 0; i < msgs["msgs"].length; i++) {
+                                    msg = msgs["msgs"][i]
+                                    let div = document.createElement("div");
+                                    let hr = document.createElement("hr");
+                                    hr.style.width = "50%";
+
+                                    div.className = "show-elements shadow-box";
+                                    div.innerHTML = `<img src='image/${msg.file}' alt='' /><ul class='show-items'><li><strong>Title:</strong>${msg.title}</li><br><li><strong>Body: </strong>${msg.body}</li><br><li><strong>Tags: </strong>${msg.tags}</li></ul>`;
+                                    container.appendChild(div);
+                                    container.appendChild(hr);
+
+                                    //container.innerHTML = "<div class='show-elements shadow-box'></div><hr width='50%'><h2 class='middle-container'>Nenhum registro encontrado!</h2><hr>"
+                                }
+                                removeLoading();
+                                flag = true;
+                                counter += 4;
+                                console.log("if");
+                            }
+                        }
+                        req.send();
+                    } else {
+                        console.log("else");
+                    }
+                }
+            }
+        }, false);
+
+    </script>
+
 </body>
 
 </html>
