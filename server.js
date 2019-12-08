@@ -124,7 +124,7 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  req.session.destroy(err => {
+  req.session.destroy((err) => {
     return res.redirect("/");
   });
 });
@@ -169,7 +169,7 @@ app.post("/login", (req, res) => {
 app.post("/ask", (req, res) => {
   if (req.session && req.session.login) {
     var filename;
-    upload(req, res, err => {
+    upload(req, res, (err) => {
       if (err) {
         res.render("ask", {
           success: false,
@@ -260,7 +260,7 @@ app.get("/frames", (req, res) => {
             .json({ msgs: false })
             .end();
         }
-        msgs.map(msg => {
+        msgs.map((msg) => {
           if (msg.file != null) {
             gfs.files.findOne({ filename: msg.file }, (err, file) => {
               if (
@@ -319,6 +319,33 @@ app.get("/image/:filename", (req, res) => {
         err: "Not an image"
       });
     }
+  });
+});
+
+app.get("/liveSearch", (req, res) => {
+  let text = req.query.text;
+  regexText = `^${text}.*`;
+  regex = new RegExp(regexText, "i");
+  client.connect(config.uri, config.options, (err, client) => {
+    if (err) throw err;
+    let db = client.db(config.db);
+
+    db.collection("contents")
+      .find({ title: regex })
+      .limit(4)
+      .toArray((err, msg) => {
+        if (err) {
+          return res.end("<h1>TESTE" + err + "</h1>");
+        }
+        if (text != "") {
+          return res
+            .status(200)
+            .json({ msg })
+            .end();
+        } else {
+          res.end();
+        }
+      });
   });
 });
 
