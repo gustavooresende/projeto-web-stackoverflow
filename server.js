@@ -124,7 +124,7 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  req.session.destroy((err) => {
+  req.session.destroy(err => {
     return res.redirect("/");
   });
 });
@@ -139,6 +139,32 @@ app.get("/ask", (req, res) => {
   } else {
     res.redirect("login");
   }
+});
+
+app.post("/counterAsks", (req, res) => {
+  var changed = false;
+  client.connect(config.uri, config.options, (err, client) => {
+    if (err) throw err;
+    let db = client.db(config.db);
+
+    let n_asks = req.body.n_asks;
+
+    n_returned = db
+      .collection("contents")
+      .find({})
+      .count()
+      .then(n_returned => {
+        if (n_returned != n_asks) {
+          changed = true;
+        }
+        return res
+          .status(200)
+          .json({ changed: changed, number: n_returned })
+          .end();
+      });
+
+    // console.log(n_returned);
+  });
 });
 
 app.post("/login", (req, res) => {
@@ -169,7 +195,7 @@ app.post("/login", (req, res) => {
 app.post("/ask", (req, res) => {
   if (req.session && req.session.login) {
     var filename;
-    upload(req, res, (err) => {
+    upload(req, res, err => {
       if (err) {
         res.render("ask", {
           success: false,
@@ -206,7 +232,7 @@ app.post("/ask", (req, res) => {
           success: false,
           error: true,
           login: true,
-          msg: "You might to fill the title, body and tags"
+          msg: "You might fill the title, body and tags"
         });
       }
       // if (data.title.length == 0) {
@@ -260,7 +286,7 @@ app.get("/frames", (req, res) => {
             .json({ msgs: false })
             .end();
         }
-        msgs.map((msg) => {
+        msgs.map(msg => {
           if (msg.file != null) {
             gfs.files.findOne({ filename: msg.file }, (err, file) => {
               if (
