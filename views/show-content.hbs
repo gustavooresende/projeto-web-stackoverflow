@@ -95,13 +95,13 @@
         req.onreadystatechange = function () {
             if (req.readyState === 4 && req.status === 200) {
                 msgs = JSON.parse(req.responseText);
-                if (msgs["msgs"].length === undefined){
+                if (msgs["msgs"].length === undefined) {
                     let div = document.createElement("div");
                     div.innerHTML = `<h2 class='middle-container'>Nenhum registro encontrado!</h2><hr>`;
                     container.appendChild(div);
-                } 
-                if (msgs["msgs"].length < 4){
-                        flag_stop = true;
+                }
+                if (msgs["msgs"].length < 4) {
+                    flag_stop = true;
                 }
                 for (let i = 0; i < msgs["msgs"].length; i++) {
                     msg = msgs["msgs"][i];
@@ -137,7 +137,7 @@
                         req.onreadystatechange = function () {
                             if (req.readyState === 4 && req.status === 200) {
                                 msgs = JSON.parse(req.responseText);
-                                if (msgs["msgs"].length < 4){
+                                if (msgs["msgs"].length < 4) {
                                     flag_stop = true;
                                 }
                                 for (let i = 0; i < msgs["msgs"].length; i++) {
@@ -166,7 +166,41 @@
                 }
             }
         }, false);
+        document.querySelector(".search").addEventListener("keyup", () => {
+            let text = document.querySelector(".search").value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", "/liveSearch?text=" + text, true);
+            xmlhttp.onreadystatechange = () => {
+                if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                    a = document.querySelector(".autocomplete-items");
+                    if (a)
+                        a.parentNode.removeChild(a);
 
+                    if (xmlhttp.responseText != "") {
+                        data = JSON.parse(xmlhttp.responseText);
+                        if (data.msg.length != 0) {
+                            console.log(JSON.parse(xmlhttp.responseText).msg);
+                            list = document.createElement("DIV");
+                            list.setAttribute("class", "autocomplete-items");
+                            document.querySelector(".search").parentNode.appendChild(list);
+
+                            for (let i = 0; i < data.msg.length; i++) {
+                                element = document.createElement("DIV");
+                                element.innerHTML = `<p>${data.msg[i].title}</p>`;
+                                element.addEventListener("click", () => {
+                                    document.querySelector(".search").value = data.msg[i].title;
+                                    a = document.querySelector(".autocomplete-items");
+                                    a.parentNode.removeChild(a);
+                                })
+
+                                list.appendChild(element);
+                            }
+                        }
+                    }
+                }
+            };
+            xmlhttp.send()
+        })
     </script>
 
 </body>

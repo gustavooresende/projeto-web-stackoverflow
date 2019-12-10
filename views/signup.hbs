@@ -100,6 +100,43 @@
       </form>
     </div>
   </section>
+  <script>
+    document.querySelector(".search").addEventListener("keyup", () => {
+      let text = document.querySelector(".search").value;
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("GET", "/liveSearch?text=" + text, true);
+      xmlhttp.onreadystatechange = () => {
+        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+          a = document.querySelector(".autocomplete-items");
+          if (a)
+            a.parentNode.removeChild(a);
+
+          if (xmlhttp.responseText != "") {
+            data = JSON.parse(xmlhttp.responseText);
+            if (data.msg.length != 0) {
+              console.log(JSON.parse(xmlhttp.responseText).msg);
+              list = document.createElement("DIV");
+              list.setAttribute("class", "autocomplete-items");
+              document.querySelector(".search").parentNode.appendChild(list);
+
+              for (let i = 0; i < data.msg.length; i++) {
+                element = document.createElement("DIV");
+                element.innerHTML = `<p>${data.msg[i].title}</p>`;
+                element.addEventListener("click", () => {
+                  document.querySelector(".search").value = data.msg[i].title;
+                  a = document.querySelector(".autocomplete-items");
+                  a.parentNode.removeChild(a);
+                })
+
+                list.appendChild(element);
+              }
+            }
+          }
+        }
+      };
+      xmlhttp.send()
+    })
+  </script>
 </body>
 
 </html>
