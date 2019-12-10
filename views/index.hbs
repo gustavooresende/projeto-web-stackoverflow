@@ -2,434 +2,460 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <link rel="stylesheet" type="text/css" href="style.css" />
-  <title>
-    Stack Overflow - Where Developers Learn, Share, & Build Careers
-  </title>
-  <link rel="shortcut icon" href="https://cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico?v=4f32ecc8f43d" />
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<title>
+		Stack Overflow - Where Developers Learn, Share, & Build Careers
+	</title>
+	<link rel="shortcut icon" href="https://cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico?v=4f32ecc8f43d" />
 </head>
 
 <body>
-  <div class="navbar">
-    <div class="menu">
-      <button class="menuButton">
-        <span class="menuLine1"></span>
-        <span class="menuLine2"></span>
-        <span class="menuLine3"></span>
-      </button>
-      <!-- <img class="logo" src="logo.png"></img> -->
-      <a href="/"><img class="logo1" src="images/logo1.png" /></a>
-      <a href="/"><img class="logo2" src="images/logo2.png" /></a>
-      <button class="products">Products</button>
-      <button class="whiteButton">Customers</button>
-      <button class="whiteButton">Use cases</button>
-      <form class="searchReference" method="GET" action="/search" autocomplete="off">
-        <div class="autocomplete" style=" width: calc(100% - 25px);">
-          <input type="text" class="search" name="search" placeholder=" Search…" />
-          <svg class="svgSearch">
-            <path class="searchIcon"
-              d="M18 16.5l-5.14-5.18h-.35a7 7 0 1 0-1.19 1.19v.35L16.5 18l1.5-1.5zM12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0z">
-            </path>
-          </svg>
-        </div>
-        <input type="submit" style="display: none;">
-      </form>
-      {{#if login}}
-      <a href="./logout">
-        <input type="button" class="loginButton" value="Log out" />
-      </a>
-      <a href="./ask">
-        <input type="button" class="signupButton" value="ASK!" />
-      </a>
-      {{else}}
-      <a href="./login">
-        <input type="button" class="loginButton" value="Log in" />
-      </a>
-      <a href="./signup">
-        <input type="button" class="signupButton" value="Sign Up" />
-      </a>
-      {{/if}}
-    </div>
-  </div>
-  <section>
-    <div class="first-image">
-      <div class="center box-600px">
-        <h1>We &#60;3 people who code</h1>
-        <p class="box-400px">
-          We build products that empower developers and connect them to
-          solutions that enable productivity, growth, and discovery.
-        </p>
-        <div class="buttons">
-          <input type="button" class="white-btn btn mt-10" value="For developers" />
-          <input type="button" class="orange-btn btn mt-10" value="For businesses" />
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="developers">
-    <h2 class="center second-title">For developers, by developers</h2>
-    <div class="hr-orange"></div>
-    <p class="box-550px second-p">
-      Stack Overflow is an
-      <a href="#" class="text-orange">open community</a> for anyone that
-      codes. We help you get answers to your toughest coding questions, share
-      knowledge with your coworkers in private, and find your next dream job.
-    </p>
-    <div class="cards start-flex">
-      <div class="card-box shadow-box">
-        <div class="content-box">
-          <img src="images/public-qa.svg" alt="public-qa" />
-          <span class="title-card">
-            Public Q&A
-          </span>
-          <p>
-            Get answers to more than 16.5 million questions and give back by
-            sharing your knowledge with others.
-            <a href="#" class="text-orange">Sign up</a> for an account.
-          </p>
-          <input class="purple-btn btn" type="button" value="Browse questions" />
-        </div>
-      </div>
+	<div class="navbar">
+		<div class="menu">
+			<button class="menuButton">
+				<span class="menuLine1"></span>
+				<span class="menuLine2"></span>
+				<span class="menuLine3"></span>
+			</button>
+			<!-- <img class="logo" src="logo.png"></img> -->
+			<a href="/"><img class="logo1" src="images/logo1.png" /></a>
+			<a href="/"><img class="logo2" src="images/logo2.png" /></a>
+			<button class="products">Products</button>
+			<button class="whiteButton">Customers</button>
+			<button class="whiteButton">Use cases</button>
+			<form class="searchReference" method="GET" action="/search" autocomplete="off">
+				<div class="autocomplete" style=" width: calc(100% - 25px);">
+					<input type="text" class="search" name="search" placeholder=" Search…" />
+					<svg class="svgSearch">
+						<path class="searchIcon"
+							d="M18 16.5l-5.14-5.18h-.35a7 7 0 1 0-1.19 1.19v.35L16.5 18l1.5-1.5zM12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0z">
+						</path>
+					</svg>
+				</div>
+				<input type="submit" style="display: none;">
+			</form>
+			{{#if login}}
+			<a href="./logout">
+				<input type="button" class="loginButton" value="Log out" />
+			</a>
+			<a href="./ask">
+				<input type="button" class="signupButton" value="ASK!" />
+			</a>
+			{{else}}
+			<a href="./login">
+				<input type="button" class="loginButton" value="Log in" />
+			</a>
+			<a href="./signup">
+				<input type="button" class="signupButton" value="Sign Up" />
+			</a>
+			{{/if}}
+		</div>
+	</div>
+	<div class="perguntas-postadas shadow-box">
+		<label class="numero-perguntas"></label> perguntas!
+	</div>
+	<section>
+		<div class="first-image">
+			<div class="center box-600px">
+				<h1>We &#60;3 people who code</h1>
+				<p class="box-400px">
+					We build products that empower developers and connect them to
+					solutions that enable productivity, growth, and discovery.
+				</p>
+				<div class="buttons">
+					<input type="button" class="white-btn btn mt-10" value="For developers" />
+					<input type="button" class="orange-btn btn mt-10" value="For businesses" />
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="developers">
+		<h2 class="center second-title">For developers, by developers</h2>
+		<div class="hr-orange"></div>
+		<p class="box-550px second-p">
+			Stack Overflow is an
+			<a href="#" class="text-orange">open community</a> for anyone that
+			codes. We help you get answers to your toughest coding questions, share
+			knowledge with your coworkers in private, and find your next dream job.
+		</p>
+		<div class="cards start-flex">
+			<div class="card-box shadow-box">
+				<div class="content-box">
+					<img src="images/public-qa.svg" alt="public-qa" />
+					<span class="title-card">
+						Public Q&A
+					</span>
+					<p>
+						Get answers to more than 16.5 million questions and give back by
+						sharing your knowledge with others.
+						<a href="#" class="text-orange">Sign up</a> for an account.
+					</p>
+					<input class="purple-btn btn" type="button" value="Browse questions" />
+				</div>
+			</div>
 
-      <div class="middle card-box shadow-box">
-        <div class="content-box">
-          <img src="images/private-qa.svg" alt="public-qa" />
-          <span class="title-card">
-            Private Q&A
-          </span>
-          <p>
-            Level up with Stack Overflow while you work. Share knowledge
-            privately with your coworkers using our flagship Q&A engine.
-          </p>
-          <input class="orange-btn btn" type="button" value="Learn More" />
-        </div>
-      </div>
+			<div class="middle card-box shadow-box">
+				<div class="content-box">
+					<img src="images/private-qa.svg" alt="public-qa" />
+					<span class="title-card">
+						Private Q&A
+					</span>
+					<p>
+						Level up with Stack Overflow while you work. Share knowledge
+						privately with your coworkers using our flagship Q&A engine.
+					</p>
+					<input class="orange-btn btn" type="button" value="Learn More" />
+				</div>
+			</div>
 
-      <div class="card-box shadow-box">
-        <div class="content-box">
-          <img src="images/jobs.svg" alt="public-qa" />
-          <span class="title-card">
-            Browse jobs
-          </span>
-          <p>
-            Find the right job through high quality listings and search for
-            roles based on title, technology stack, salary, location, and
-            more.
-          </p>
-          <input class="purple-btn btn" type="button" value="Find a job" />
-        </div>
-      </div>
-    </div>
-  </section>
+			<div class="card-box shadow-box">
+				<div class="content-box">
+					<img src="images/jobs.svg" alt="public-qa" />
+					<span class="title-card">
+						Browse jobs
+					</span>
+					<p>
+						Find the right job through high quality listings and search for
+						roles based on title, technology stack, salary, location, and
+						more.
+					</p>
+					<input class="purple-btn btn" type="button" value="Find a job" />
+				</div>
+			</div>
+		</div>
+	</section>
 
-  <section class="businesses">
-    <div class="center box-650px">
-      <h2 class="center second-title">For businesses, by developers</h2>
-      <div class="hr-orange"></div>
-      <p class="second-p">
-        Our mission is to help developers write the script of the future. This
-        means helping you find and hire skilled developers for your business
-        and providing them the tools they need to share knowledge and work
-        effectively.
-      </p>
-    </div>
-    <div class="cards">
-      <div class="small-card-box shadow-box">
-        <img src="images/private-questions.svg" alt="private-questions" />
-        <p class="second-p">
-          Quickly find and share internal knowledge with
-          <a href="#" class="text-orange">Private Q&A</a>
-        </p>
-      </div>
+	<section class="businesses">
+		<div class="center box-650px">
+			<h2 class="center second-title">For businesses, by developers</h2>
+			<div class="hr-orange"></div>
+			<p class="second-p">
+				Our mission is to help developers write the script of the future. This
+				means helping you find and hire skilled developers for your business
+				and providing them the tools they need to share knowledge and work
+				effectively.
+			</p>
+		</div>
+		<div class="cards">
+			<div class="small-card-box shadow-box">
+				<img src="images/private-questions.svg" alt="private-questions" />
+				<p class="second-p">
+					Quickly find and share internal knowledge with
+					<a href="#" class="text-orange">Private Q&A</a>
+				</p>
+			</div>
 
-      <div class="small-card-box shadow-box">
-        <img src="images/find-candidate.svg" alt="find-candidate" />
-        <p class="second-p">
-          Find the perfect candidate for your growing technical team with
-          <a href="#" class="text-orange">Talent solutions</a>
-        </p>
-      </div>
+			<div class="small-card-box shadow-box">
+				<img src="images/find-candidate.svg" alt="find-candidate" />
+				<p class="second-p">
+					Find the perfect candidate for your growing technical team with
+					<a href="#" class="text-orange">Talent solutions</a>
+				</p>
+			</div>
 
-      <div class="small-card-box shadow-box">
-        <img src="images/accelerate.svg" alt="accelerate" />
-        <p class="second-p">
-          Accelerate the discovery of your products or services through our
-          <a href="#" class="text-orange">Advertising platform</a>
-        </p>
-      </div>
-    </div>
-  </section>
-  <section class="programs">
-    <div class="center box-500px no-margin">
-      <h2 class="center second-title text-white">
-        Unlock siloed knowledge with Stack Overflow for Teams
-      </h2>
-      <div class="hr-orange"></div>
-      <p class="second-p text-white box-430px">
-        Wikis, chat messages, or formal documentation for knowledge management
-        aren’t effective. Our question and answer format is a proven approach
-        for accessing the right information in less time.
-      </p>
-      <input class="orange-btn btn mt-12" type="button" value="Learn More" />
-    </div>
-    <div class="cards start-flex">
-      <div class="card-box shadow-box">
-        <div class="content-box">
-          <div class="head">
-            <span class="title-card">
-              Basic
-            </span>
-            <p>Private Q&A for teams</p>
-          </div>
-          <span class="tiny-hr"></span>
-          <ul>
-            <li>
-              <div class="price">
-                $5
-                <div class="price-desc">
-                  <p>Per user / month</p>
-                  <p>billed annually</p>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>Free 14 day trial</span>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>A single team hosted on stackoverflow.com</span>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>Unlimited private questions and answers</span>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>Searchable archive</span>
-              </div>
-            </li>
-          </ul>
-          <input class="purple-btn btn" type="button" value="Create your team" />
-        </div>
-      </div>
+			<div class="small-card-box shadow-box">
+				<img src="images/accelerate.svg" alt="accelerate" />
+				<p class="second-p">
+					Accelerate the discovery of your products or services through our
+					<a href="#" class="text-orange">Advertising platform</a>
+				</p>
+			</div>
+		</div>
+	</section>
+	<section class="programs">
+		<div class="center box-500px no-margin">
+			<h2 class="center second-title text-white">
+				Unlock siloed knowledge with Stack Overflow for Teams
+			</h2>
+			<div class="hr-orange"></div>
+			<p class="second-p text-white box-430px">
+				Wikis, chat messages, or formal documentation for knowledge management
+				aren’t effective. Our question and answer format is a proven approach
+				for accessing the right information in less time.
+			</p>
+			<input class="orange-btn btn mt-12" type="button" value="Learn More" />
+		</div>
+		<div class="cards start-flex">
+			<div class="card-box shadow-box">
+				<div class="content-box">
+					<div class="head">
+						<span class="title-card">
+							Basic
+						</span>
+						<p>Private Q&A for teams</p>
+					</div>
+					<span class="tiny-hr"></span>
+					<ul>
+						<li>
+							<div class="price">
+								$5
+								<div class="price-desc">
+									<p>Per user / month</p>
+									<p>billed annually</p>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>Free 14 day trial</span>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>A single team hosted on stackoverflow.com</span>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>Unlimited private questions and answers</span>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>Searchable archive</span>
+							</div>
+						</li>
+					</ul>
+					<input class="purple-btn btn" type="button" value="Create your team" />
+				</div>
+			</div>
 
-      <div class="middle card-box shadow-box">
-        <div class="content-box">
-          <div class="head">
-            <span class="title-card">
-              Business
-            </span>
-            <p>
-              Private Q&A with secure single sign-on and premium features for
-              your whole organization
-            </p>
-          </div>
-          <span class="tiny-hr"></span>
-          <ul>
-            <li>
-              <div class="price">
-                $11
-                <div class="price-desc">
-                  <p>Per user / month</p>
-                  <p>billed annually</p>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>All the features of Basic</span>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>Single Sign-On (SSO), with SAML</span>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>Invoicing</span>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>Reporting and Analytics </span>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>Priority customer support </span>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>99.5% uptime</span>
-              </div>
-            </li>
-          </ul>
-          <input class="purple-btn btn" type="button" value="Request a demo" />
-        </div>
-      </div>
+			<div class="middle card-box shadow-box">
+				<div class="content-box">
+					<div class="head">
+						<span class="title-card">
+							Business
+						</span>
+						<p>
+							Private Q&A with secure single sign-on and premium features for
+							your whole organization
+						</p>
+					</div>
+					<span class="tiny-hr"></span>
+					<ul>
+						<li>
+							<div class="price">
+								$11
+								<div class="price-desc">
+									<p>Per user / month</p>
+									<p>billed annually</p>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>All the features of Basic</span>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>Single Sign-On (SSO), with SAML</span>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>Invoicing</span>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>Reporting and Analytics </span>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>Priority customer support </span>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>99.5% uptime</span>
+							</div>
+						</li>
+					</ul>
+					<input class="purple-btn btn" type="button" value="Request a demo" />
+				</div>
+			</div>
 
-      <div class="card-box shadow-box">
-        <div class="content-box">
-          <div class="head">
-            <span class="title-card">
-              Enterprise
-            </span>
-            <p>
-              Your own standalone Q&A community, with enhanced security and
-              flexible hosting options
-            </p>
-          </div>
-          <span class="tiny-hr"></span>
-          <ul>
-            <li>
-              <div class="price">
-                $17
-                <div class="price-desc">
-                  <p>Per user / month</p>
-                  <p>billed annually</p>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>All the features of Basic and Business</span>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>Host on your cloud, your own servers, or our private
-                  cloud</span>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>Single Sign-On: AD, SAML</span>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>Robust Read and Write API</span>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>Dedicated Customer Success and Community Building
-                </span>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>99.5% uptime</span>
-              </div>
-            </li>
-            <li>
-              <div class="item">
-                <svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
-                  <path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
-                </svg>
-                <span>Customized Themes and Privileges</span>
-              </div>
-            </li>
-          </ul>
-          <input class="purple-btn btn" type="button" value="Request a demo" />
-        </div>
-      </div>
-    </div>
-  </section>
-  <script type="text/javascript" charset="utf-8">
-    document.querySelector(".search").addEventListener("keyup", () => {
-      let text = document.querySelector(".search").value;
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("GET", "/liveSearch?text=" + text, true);
-      xmlhttp.onreadystatechange = () => {
-        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-          a = document.querySelector(".autocomplete-items");
-          if (a)
-            a.parentNode.removeChild(a);
+			<div class="card-box shadow-box">
+				<div class="content-box">
+					<div class="head">
+						<span class="title-card">
+							Enterprise
+						</span>
+						<p>
+							Your own standalone Q&A community, with enhanced security and
+							flexible hosting options
+						</p>
+					</div>
+					<span class="tiny-hr"></span>
+					<ul>
+						<li>
+							<div class="price">
+								$17
+								<div class="price-desc">
+									<p>Per user / month</p>
+									<p>billed annually</p>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>All the features of Basic and Business</span>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>Host on your cloud, your own servers, or our private
+									cloud</span>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>Single Sign-On: AD, SAML</span>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>Robust Read and Write API</span>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>Dedicated Customer Success and Community Building
+								</span>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>99.5% uptime</span>
+							</div>
+						</li>
+						<li>
+							<div class="item">
+								<svg aria-hidden="true" class="svg-icon" width="18" height="18" viewBox="0 0 18 18">
+									<path d="M16 4.41L14.59 3 6 11.59 2.41 8 1 9.41l5 5 10-10z"></path>
+								</svg>
+								<span>Customized Themes and Privileges</span>
+							</div>
+						</li>
+					</ul>
+					<input class="purple-btn btn" type="button" value="Request a demo" />
+				</div>
+			</div>
+		</div>
+	</section>
+	<script type="text/javascript" charset="utf-8">
 
-          if (xmlhttp.responseText != "") {
-            data = JSON.parse(xmlhttp.responseText);
-            if (data.msg.length != 0) {
-              console.log(JSON.parse(xmlhttp.responseText).msg);
-              list = document.createElement("DIV");
-              list.setAttribute("class", "autocomplete-items");
-              document.querySelector(".search").parentNode.appendChild(list);
+		askCounter = () => {
+			let req = new XMLHttpRequest();
+			req.open("POST", "/counterAsks", true);
+			n_asks = document.getElementsByClassName("numero-perguntas")[0];
+			req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			if(!n_asks.innerHTML){
+				n_asks.innerHTML = 0;
+			}
+			console.log("h");
+			req.onreadystatechange = () => {
+				if (req.readyState === 4 && req.status === 200) {
+					msg = JSON.parse(req.responseText);
+					if(msg["changed"]){
+						n_asks.innerHTML = msg["number"];
+					}
+				}
+			}
+			req.send("n_asks="+n_asks);
+		}
+		askCounter();
+		setInterval(askCounter, 5000);
 
-              for (let i = 0; i < data.msg.length; i++) {
-                element = document.createElement("DIV");
-                element.innerHTML = `<p>${data.msg[i].title}</p>`;
-                element.addEventListener("click", () => {
-                  document.querySelector(".search").value = data.msg[i].title;
-                  a = document.querySelector(".autocomplete-items");
-                  a.parentNode.removeChild(a);
-                })
+		document.querySelector(".search").addEventListener("keyup", () => {
+			let text = document.querySelector(".search").value;
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", "/liveSearch?text=" + text, true);
+			xmlhttp.onreadystatechange = () => {
+				if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+					a = document.querySelector(".autocomplete-items");
+					if (a)
+						a.parentNode.removeChild(a);
 
-                list.appendChild(element);
-              }
-            }
-          }
-        }
-      };
-      xmlhttp.send()
-    })
-  </script>
+					if (xmlhttp.responseText != "") {
+						data = JSON.parse(xmlhttp.responseText);
+						if (data.msg.length != 0) {
+							console.log(JSON.parse(xmlhttp.responseText).msg);
+							list = document.createElement("DIV");
+							list.setAttribute("class", "autocomplete-items");
+							document.querySelector(".search").parentNode.appendChild(list);
+
+							for (let i = 0; i < data.msg.length; i++) {
+								element = document.createElement("DIV");
+								element.innerHTML = `<p>${data.msg[i].title}</p>`;
+								element.addEventListener("click", () => {
+									document.querySelector(".search").value = data.msg[i].title;
+									a = document.querySelector(".autocomplete-items");
+									a.parentNode.removeChild(a);
+								})
+
+								list.appendChild(element);
+							}
+						}
+					}
+				}
+			};
+			xmlhttp.send()
+		})
+	</script>
 </body>
 
 </html>
